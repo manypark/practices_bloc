@@ -10,8 +10,8 @@ class ProductRespotoryImpl extends ProductRepository {
   }): datasource = datasource ?? ProductDatasource();
 
   @override
-  Future<List<Product>> getProducts() {
-    return datasource.getProducts();
+  Future<List<Product>> getProducts( int skip ) {
+    return datasource.getProducts( skip );
   }
 
   @override

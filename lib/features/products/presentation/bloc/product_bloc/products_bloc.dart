@@ -9,7 +9,7 @@ part 'products_state.dart';
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
   final _productRepository = ProductRespotoryImpl();
-
+  int _skipCurrent = 0;
   
   ProductsBloc() : super( const ProductsState() ) {
     on<ProductsLoaded>( _loadPokemonsHanlder );
@@ -17,17 +17,17 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   }
 
 //********************************************************************************************************************************************************************* */
-  Future<List<Product>> loadPokemons() async {
+  Future<void> loadPokemons() async {
 
-    final loadedProducts = await _productRepository.getProducts();
+    final loadedProducts = await _productRepository.getProducts(_skipCurrent);
 
     add( ProductsLoaded(productsLoaded: loadedProducts ) );
 
-    return loadedProducts;
+    _skipCurrent += 12;
   }
 
   void _loadPokemonsHanlder( ProductsLoaded event, Emitter<ProductsState> emit ) {
-    emit( state.copyWith( products: event.productsLoaded ) );
+    emit( state.copyWith( products: [ ...state.products ,...event.productsLoaded ] ) );
   }
 
 //********************************************************************************************************************************************************************* */

@@ -27,7 +27,7 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    int value = 1;
+    int value = 0;
     List<String> categories = CategoriesProducts.categories;
 
     return Padding(

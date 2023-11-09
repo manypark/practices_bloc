@@ -11,11 +11,11 @@ class ProductDatasource extends ProductDataSource {
   );
 
   @override
-  Future<List<Product>> getProducts() async {
+  Future<List<Product>> getProducts( int skip ) async {
     
     try {
 
-      final res = await dio.get('?limit=100');
+      final res = await dio.get('?limit=12&skip=$skip');
 
       final resProducts = res.data['products'];
 
