@@ -48,21 +48,54 @@ class DetailProduct extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-            
+
                   Hero(
                     tag  : 'image${productSelected?.id}',
-                    child: Container(
+                    child: SizedBox(
                       width : double.infinity,
                       height: 500,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        image       : DecorationImage(
-                          image: NetworkImage(productSelected!.thumbnail!),
-                          fit   : BoxFit.cover,
-                        )
+                      child: PageView.builder(
+                        controller: PageController(
+                          viewportFraction: 0.9,
+                          keepPage: true
+                        ),
+                        scrollDirection: Axis.horizontal,
+                        itemCount      : productSelected?.images?.length,
+                        itemBuilder    : (context, index) {
+                  
+                          final product = productSelected!.images?[index];
+                  
+                          return Container(
+                            width : double.infinity,
+                            height: 500,
+                            margin: const EdgeInsets.symmetric(horizontal: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              image       : DecorationImage(
+                                image: NetworkImage(product!),
+                                fit   : BoxFit.cover,
+                              )
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
+            
+                  // Hero(
+                  //   tag  : 'image${productSelected?.id}',
+                  //   child: Container(
+                  //     width : double.infinity,
+                  //     height: 500,
+                  //     decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(30),
+                  //       image       : DecorationImage(
+                  //         image: NetworkImage(productSelected!.thumbnail!),
+                  //         fit   : BoxFit.cover,
+                  //       )
+                  //     ),
+                  //   ),
+                  // ),
             
                   Positioned(
                     top: 20,
@@ -86,7 +119,7 @@ class DetailProduct extends StatelessWidget {
 
             const SizedBox( height: 50 ),
 
-            Text(productSelected.title!, style: const TextStyle( fontSize: 28, fontWeight: FontWeight.w700 ) ),
+            Text(productSelected!.title!, style: const TextStyle( fontSize: 28, fontWeight: FontWeight.w700 ) ),
 
             const SizedBox( height: 10 ),
 
