@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:animate_do/animate_do.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'views/products_list.dart';
 import 'package:practices/config/config.dart';
-import 'package:practices/shared/shared.dart';
-import 'package:practices/features/products/presentation/bloc/blocs.dart';
 
 class ProductScreen extends StatelessWidget {
 
@@ -40,7 +37,8 @@ class ProductView extends StatelessWidget {
         child   : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-          
+            
+            // title
             FadeIn(
               duration: const Duration( milliseconds: 800 ),
               child: const Text('Products for everyone', style: TextStyle( fontSize: 24, fontWeight: FontWeight.w700) )
@@ -48,6 +46,7 @@ class ProductView extends StatelessWidget {
       
             const SizedBox( height: 15 ),
       
+            // input search products
             FadeIn(
               duration: const Duration( milliseconds: 800 ),
               child: ClipRRect(
@@ -65,7 +64,8 @@ class ProductView extends StatelessWidget {
             ),
       
             const SizedBox( height: 25 ),
-      
+
+            // categories
             SizedBox(
               width: double.infinity,
               height: 36,
@@ -101,6 +101,7 @@ class ProductView extends StatelessWidget {
 
             const SizedBox( height: 25 ),
 
+            // title top products
             const Row(
               mainAxisAlignment : MainAxisAlignment.spaceBetween,
               children          : [
@@ -109,55 +110,9 @@ class ProductView extends StatelessWidget {
               ],
             ),
 
-            Center(
-              child: SizedBox(
-                width : double.infinity,
-                height: 550,
-                child: FutureBuilder(
-                  future  : context.read<ProductsBloc>().loadPokemons(), 
-                  builder : (context, snapshot) {
-                    
-                    if( snapshot.connectionState == ConnectionState.waiting ) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-              
-                    if ( snapshot.hasError ) {
-                      return const Center(child: Text('Something went wrong'));
-                    }
-            
-                    return GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount  : 2,
-                        mainAxisSpacing : 12.0,
-                        crossAxisSpacing: 12.0,
-                      ), 
-                      itemCount  : snapshot.data!.toList().length,
-                      itemBuilder: (context, index) {
-            
-                        final products = snapshot.data?[index];
-                        
-                        return FadeInRight(
-                          from : (index * 10 ),
-                          child: GestureDetector(
-                            onTap: () {
-                              context.read<ProductsBloc>().selectProduct(products);
-                              context.push('/products/detail-product');
-                            },
-                            child: CuatomCardImage(
-                              urlImg: products!.thumbnail!,
-                              rating: products.rating!,
-                              title : products.title!,
-                              index : products.id!,
-                            ),
-                          ),
-                        );
-                      },
-                    );
-            
-                  },
-                ),
-              ),
-            ),
+
+            // list of products
+            const ProductList(),
           ],
         ),
       ),

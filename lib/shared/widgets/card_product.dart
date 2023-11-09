@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class CuatomCardImage extends StatelessWidget {
+class CustomCardImage extends StatelessWidget {
 
   final String urlImg;
   final double rating;
   final String title;
   final int index;
 
-  const CuatomCardImage({
+  const CustomCardImage({
     super.key, 
     required this.urlImg, 
     required this.rating, 

@@ -8,11 +8,15 @@ sealed class ProductsEvent extends Equatable {
 
 
 class ProductsLoaded extends ProductsEvent {
+
   final List<Product> productsLoaded;
-  const ProductsLoaded({required this.productsLoaded});
+  
+  const ProductsLoaded({
+    required this.productsLoaded,
+  });
 
   @override
-  List<Object> get props => [productsLoaded];
+  List<Object> get props => [ productsLoaded ];
 }
 
 class ProductSelected extends ProductsEvent {

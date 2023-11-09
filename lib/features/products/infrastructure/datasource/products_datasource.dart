@@ -15,7 +15,7 @@ class ProductDatasource extends ProductDataSource {
     
     try {
 
-      final res = await dio.get('?limit=10&skip=0');
+      final res = await dio.get('?limit=100');
 
       final resProducts = res.data['products'];
 
