@@ -19,6 +19,11 @@ final appRouter = GoRouter(routes: [
         builder : (context, state) => const ProductDetailView(),
       ),
 
+      GoRoute(
+        path    : 'search-product',
+        builder : (context, state) => const SearchProductScreen(),
+      ),
+
     ]
   ),
 

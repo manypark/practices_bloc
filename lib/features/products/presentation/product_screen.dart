@@ -4,6 +4,8 @@ import 'package:animate_do/animate_do.dart';
 import 'views/products_list.dart';
 import 'package:practices/config/config.dart';
 
+import 'views/search_product_input.dart';
+
 class ProductScreen extends StatelessWidget {
 
   const ProductScreen({super.key});
@@ -47,21 +49,7 @@ class ProductView extends StatelessWidget {
             const SizedBox( height: 15 ),
       
             // input search products
-            FadeIn(
-              duration: const Duration( milliseconds: 800 ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child       : TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Search your product',
-                    fillColor: Colors.grey.shade100,
-                    filled   : true,
-                    border  : InputBorder.none,
-                    prefixIcon: const Icon( Icons.search_outlined),
-                  ),
-                ),
-              ),
-            ),
+            const SearchProductInputView(),
       
             const SizedBox( height: 25 ),
 

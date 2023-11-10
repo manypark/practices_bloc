@@ -82,21 +82,6 @@ class DetailProduct extends StatelessWidget {
                     ),
                   ),
             
-                  // Hero(
-                  //   tag  : 'image${productSelected?.id}',
-                  //   child: Container(
-                  //     width : double.infinity,
-                  //     height: 500,
-                  //     decoration: BoxDecoration(
-                  //       borderRadius: BorderRadius.circular(30),
-                  //       image       : DecorationImage(
-                  //         image: NetworkImage(productSelected!.thumbnail!),
-                  //         fit   : BoxFit.cover,
-                  //       )
-                  //     ),
-                  //   ),
-                  // ),
-            
                   Positioned(
                     top: 20,
                     left: 20,

@@ -15,8 +15,13 @@ class ProductRespotoryImpl extends ProductRepository {
   }
 
   @override
+  Future<List<Product>> searchProducts(String product) {
+    return datasource.searchProducts(product);
+  }
+
+  @override
   Future<List<Product>> getProductsByCategorie(String category) {
     return datasource.getProductsByCategorie(category);
   }
-  
+    
 }

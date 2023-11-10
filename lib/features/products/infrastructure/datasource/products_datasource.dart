@@ -43,11 +43,28 @@ class ProductDatasource extends ProductDataSource {
     } catch (e) {
       throw Exception(e.toString());
     }
+
+  }
+
+  @override
+  Future<List<Product>> searchProducts( String product ) async {
+    try {
+
+      final res = await dio.get('/search?q=$product');
+
+      final products = _jsonToProduct( res.data['products'] );
+
+      return products;
+      
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+
   }
 
   List<Product> _jsonToProduct( List<dynamic> json ) {
     final productResponse = json.map( (p) => ProductMapper.productToEntity(p)).toList();
     return productResponse;
   }
-  
+   
 }
