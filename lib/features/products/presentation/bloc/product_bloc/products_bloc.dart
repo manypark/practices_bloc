@@ -12,12 +12,13 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   int _skipCurrent = 0;
   
   ProductsBloc() : super( const ProductsState() ) {
-    on<ProductsLoaded>( _loadPokemonsHanlder );
+    on<ProductsLoaded>( _loadProductsHanlder );
     on<ProductSelected>( _selectedProductHandler );
+    on<ProductSearch>( _searchProduct );
   }
 
-//********************************************************************************************************************************************************************* */
-  Future<void> loadPokemons() async {
+//********************************************** Load Products ********************************************** */
+  Future<void> loadProducts() async {
 
     final loadedProducts = await _productRepository.getProducts(_skipCurrent);
 
@@ -26,17 +27,31 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     _skipCurrent += 12;
   }
 
-  void _loadPokemonsHanlder( ProductsLoaded event, Emitter<ProductsState> emit ) {
+  void _loadProductsHanlder( ProductsLoaded event, Emitter<ProductsState> emit ) {
     emit( state.copyWith( products: [ ...state.products ,...event.productsLoaded ] ) );
   }
 
-//********************************************************************************************************************************************************************* */
+//********************************************** Select Product ********************************************** */
   void selectProduct( Product productSelected ) {
     add( ProductSelected(productSelected: productSelected) );
   }
 
   void _selectedProductHandler( ProductSelected event, Emitter<ProductsState> emit ) {
     emit( state.copyWith( productSelected: event.productSelected ));
+  }
+
+//********************************************** Search Product ********************************************** */
+  Future<List<Product>> loadSearchedProducts( String product ) async {
+
+    final searchedProducts = await _productRepository.searchProducts(product);
+
+    add( ProductSearch( productsSearched: searchedProducts, product: product ) );
+
+    return searchedProducts;
+  }
+
+  void _searchProduct( ProductSearch event, Emitter<ProductsState> emit ) {
+    emit( state.copyWith( productsSearched: event.productsSearched ) );
   }
 
 }

@@ -22,7 +22,7 @@ class _ProductListState extends State<ProductList> {
 
   @override
   void initState() {
-    context.read<ProductsBloc>().loadPokemons();
+    context.read<ProductsBloc>().loadProducts();
     super.initState();
 
     _scrollController.addListener(() async {
@@ -35,7 +35,7 @@ class _ProductListState extends State<ProductList> {
 
           _isEndReached = true;
 
-          await context.read<ProductsBloc>().loadPokemons();
+          await context.read<ProductsBloc>().loadProducts();
 
           double scrollPosition = _scrollController.position.pixels + 100;
 

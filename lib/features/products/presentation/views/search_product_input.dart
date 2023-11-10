@@ -23,7 +23,10 @@ class _SearchProductInputViewState extends State<SearchProductInputView> {
       child       : TextFormField(
         controller: controller,
         onEditingComplete: () {
-          context.push('/products/search-product');
+
+          if( controller.text == '' ) return;
+
+          context.push('/products/search-product/${controller.text}');
         },
         onChanged: (value) {
           setState(() {
@@ -38,7 +41,6 @@ class _SearchProductInputViewState extends State<SearchProductInputView> {
           prefixIcon: const Icon( Icons.search_outlined),
           suffixIcon: showIcon ? IconButton(
             onPressed: () {
-
               setState(() {
                 showIcon = false;
                 controller.clear();

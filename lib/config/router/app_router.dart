@@ -20,8 +20,13 @@ final appRouter = GoRouter(routes: [
       ),
 
       GoRoute(
-        path    : 'search-product',
-        builder : (context, state) => const SearchProductScreen(),
+        path    : 'search-product/:product',
+        builder : (context, state) {
+
+          final product = state.pathParameters['product'];
+
+          return SearchProductScreen( prodcutsSearched: product! );
+        },
       ),
 
     ]
