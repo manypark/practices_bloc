@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:animate_do/animate_do.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'views/products_list.dart';
 import 'package:practices/config/config.dart';
@@ -41,10 +41,8 @@ class ProductView extends StatelessWidget {
           children: [
             
             // title
-            FadeIn(
-              duration: const Duration( milliseconds: 800 ),
-              child: const Text('Products for everyone', style: TextStyle( fontSize: 24, fontWeight: FontWeight.w700) )
-            ),
+            const Text('Products for everyone', style: TextStyle( fontSize: 24, fontWeight: FontWeight.w700) )
+            .animate().fadeIn(),
       
             const SizedBox( height: 15 ),
       
@@ -62,27 +60,24 @@ class ProductView extends StatelessWidget {
                 itemCount       : categories.length,
                 itemBuilder     : (context, index) {
             
-                  return FadeInRight(
-                    from: (index * 10),
-                    child: Container(
-                      margin: const EdgeInsets.only( right: 12 ),
-                      child : OutlinedButton(
-                          onPressed : () {
-                    
-                          },
-                          style: ButtonStyle(
-                            side  : MaterialStateProperty.all<BorderSide>( BorderSide.none ),
-                            shape : MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder( borderRadius: BorderRadius.circular(24) )
-                            ),
-                            backgroundColor: (value == index)
-                                ? MaterialStateProperty.all<Color>(Colors.grey.shade400)
-                                : MaterialStateProperty.all<Color>(Colors.grey.shade200),
+                  return Container(
+                    margin: const EdgeInsets.only( right: 12 ),
+                    child : OutlinedButton(
+                        onPressed : () {
+                  
+                        },
+                        style: ButtonStyle(
+                          side  : MaterialStateProperty.all<BorderSide>( BorderSide.none ),
+                          shape : MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder( borderRadius: BorderRadius.circular(24) )
                           ),
-                          child : Text(categories[index], style: const TextStyle( color: Colors.black ),),
+                          backgroundColor: (value == index)
+                              ? MaterialStateProperty.all<Color>(Colors.grey.shade400)
+                              : MaterialStateProperty.all<Color>(Colors.grey.shade200),
                         ),
-                    ),
-                  );
+                        child : Text(categories[index], style: const TextStyle( color: Colors.black ),),
+                      ),
+                  ).animate().fadeIn().scale( duration: 500.ms );
                 }
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class CustomCardImage extends StatelessWidget {
 
@@ -78,7 +79,7 @@ class CustomCardImage extends StatelessWidget {
             padding : const EdgeInsets.symmetric( horizontal: 5 ),
             child   : Text(title, style: const TextStyle( fontWeight: FontWeight.w600, overflow: TextOverflow.ellipsis ), maxLines: 1, ),
           ),
-        ],
+        ].animate(interval: const Duration( milliseconds: 400 ) ).fadeIn().scale( duration: const Duration( milliseconds: 400 )),
       ),
     );
   }

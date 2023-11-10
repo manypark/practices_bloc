@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 import 'package:practices/config/config.dart';
@@ -36,23 +37,24 @@ class SearchProductScreen extends StatelessWidget {
               ],
             ),
             childrenDelegate: SliverChildBuilderDelegate( (context, index) {
-              return Container(
-                decoration: BoxDecoration(
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 10,
-                      color: Colors.black12,
-                      offset: Offset(0, 0),
-                      spreadRadius: 0,
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(30),
-                  image       : DecorationImage(
-                    image: NetworkImage(dummyProduct[index]['urlImg']),
-                    fit   : BoxFit.cover,
+
+                return Container(
+                  decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 10,
+                        color: Colors.black12,
+                        offset: Offset(0, 0),
+                        spreadRadius: 0,
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                    image       : DecorationImage(
+                      image: NetworkImage(dummyProduct[index]['urlImg']),
+                      fit   : BoxFit.cover,
+                    ),
                   ),
-                ),
-              );
+                ).animate().scale( delay:Duration( milliseconds: ( index * 100 ) ) );
               },
               childCount            : dummyProduct.length,
               addAutomaticKeepAlives: true,
