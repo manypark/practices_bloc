@@ -1,3 +1,5 @@
+import 'dart:ui';
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -61,23 +63,61 @@ class SearchProductScreen extends StatelessWidget {
 
                     final product = snapshot.data?[index];
 
-                    return Container(
-                      decoration: BoxDecoration(
-                        boxShadow: const [
-                          BoxShadow(
-                            blurRadius: 10,
-                            color: Colors.black12,
-                            offset: Offset(0, 0),
-                            spreadRadius: 0,
-                          )
-                        ],
-                        borderRadius: BorderRadius.circular(30),
-                        image       : DecorationImage(
-                          image: NetworkImage( product!.thumbnail! ),
-                          fit   : BoxFit.cover,
+                    return Stack(
+                      children: [
+
+                        Container(
+                          decoration: BoxDecoration(
+                            boxShadow: const [
+                              BoxShadow(
+                                blurRadius: 10,
+                                color: Colors.black12,
+                                offset: Offset(0, 0),
+                                spreadRadius: 0,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(30),
+                            image       : DecorationImage(
+                              image: NetworkImage( product!.thumbnail! ),
+                              fit   : BoxFit.cover,
+                            ),
+                          ),
+                        ).animate().scale( delay:Duration( milliseconds: ( index * 20 ) ) ),
+
+                        Positioned(
+                          bottom: 0,
+                          left  : 0,
+                          right : 0,
+                          child : Container(
+                            padding: const EdgeInsets.symmetric( vertical: 20 ),
+                          ).blurred(
+                            borderRadius: const BorderRadius.only( bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30) ),
+                            blurColor   : Colors.grey.withOpacity(0.9),
+                            overlay     : Padding(
+                              padding: const EdgeInsets.symmetric( horizontal: 12 ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: Text(product.title!, style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ),maxLines: 1, )
+                                  ),
+
+                                  const SizedBox( width: 5 ),
+
+                                  Expanded(
+                                    flex: 0,
+                                    child: Text('${product.rating}', style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ), maxLines: 1, )
+                                  ),
+                                ],
+                              ),
+                            )
+                            // frostColor  : Colors.white60.withOpacity(0.2),
+                            // frostOpacity: 0.3
+                          ),
                         ),
-                      ),
-                    ).animate().scale( delay:Duration( milliseconds: ( index * 100 ) ) );
+                      ],
+                    );
                   },
                   childCount            : snapshot.data?.length,
                   addAutomaticKeepAlives: true,
