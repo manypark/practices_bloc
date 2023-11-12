@@ -1,5 +1,6 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -49,7 +50,12 @@ class SearchProductScreen extends StatelessWidget {
               }
 
               if ( snapshot.data!.isEmpty ) {
-                return Image.asset('assets/images/no-data.jpg', fit: BoxFit.cover, );
+                // return Image.asset('assets/images/no-data.jpg', fit: BoxFit.cover, );
+                return SvgPicture.asset(
+                  'assets/images/no-data.svg',
+                  semanticsLabel : 'No data',
+                  fit             : BoxFit.cover,
+                ).animate().scale( curve: Curves.easeInOutSine, duration: 500.ms );
               }
 
               return GridView.custom(
@@ -93,7 +99,7 @@ class SearchProductScreen extends StatelessWidget {
                                 fit   : BoxFit.cover,
                               ),
                             ),
-                          ).animate().scale( delay:Duration( milliseconds: ( index * 20 ) ) ),
+                          ),
                                         
                           Positioned(
                             bottom: 0,
@@ -131,7 +137,7 @@ class SearchProductScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ).animate().scale( delay:Duration( milliseconds: ( index * 20 ) ) ),
                     );
                   },
                   childCount            : snapshot.data?.length,

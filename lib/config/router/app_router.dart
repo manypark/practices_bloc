@@ -2,35 +2,39 @@ import 'package:go_router/go_router.dart';
 import 'package:practices/features/home/home.dart';
 import 'package:practices/features/products/products.dart';
 
-final appRouter = GoRouter(routes: [
+final appRouter = GoRouter(
 
-  GoRoute(
-    path    : '/',
-    builder : (context, state) => const HomeScreen(),
-  ),
+  initialLocation : '/',
+  routes          : [
 
-  GoRoute(
-    path    : '/products',
-    builder : (context, state) => const ProductScreen(),
-    routes  : [
+    GoRoute(
+      path    : '/',
+      builder : (context, state) => const HomeScreen(),
+    ),
 
-      GoRoute(
-        path    : 'detail-product',
-        builder : (context, state) => const ProductDetailView(),
-      ),
+    GoRoute(
+      path    : '/products',
+      builder : (context, state) => const ProductScreen(),
+      routes  : [
 
-      GoRoute(
-        path    : 'search-product/:product/:showByCategorie',
-        builder : (context, state) {
+        GoRoute(
+          path    : 'detail-product',
+          builder : (context, state) => const ProductDetailView(),
+        ),
 
-          final product = state.pathParameters['product'];
-          final showByCategories = state.pathParameters['showByCategorie'] == '1';
+        GoRoute(
+          path    : 'search-product/:product/:showByCategorie',
+          builder : (context, state) {
 
-          return SearchProductScreen( prodcutsSearched: product!, showByCategorie: showByCategories );
-        },
-      ),
+            final product = state.pathParameters['product'];
+            final showByCategories = state.pathParameters['showByCategorie'] == '1';
 
-    ]
-  ),
+            return SearchProductScreen( prodcutsSearched: product!, showByCategorie: showByCategories );
+          },
+        ),
 
-]);
+      ]
+    ),
+
+  ]
+);
