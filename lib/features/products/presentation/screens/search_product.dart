@@ -1,6 +1,6 @@
-import 'dart:ui';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -10,16 +10,22 @@ import 'package:practices/features/products/presentation/bloc/blocs.dart';
 class SearchProductScreen extends StatelessWidget {
 
   final String prodcutsSearched;
+  final bool showByCategorie;
 
   const SearchProductScreen({
     Key? key,
     required this.prodcutsSearched,
+    required this.showByCategorie,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
 
     final sizeHeight = MediaQuery.of(context).size.height;
+
+    final onFunction = showByCategorie ?
+    context.read<ProductsBloc>().loadProductsByCategorie( prodcutsSearched.toLowerCase() ) :
+    context.read<ProductsBloc>().loadSearchedProducts( prodcutsSearched.toLowerCase() );
 
     return Scaffold(
       appBar: AppBar(
@@ -31,7 +37,7 @@ class SearchProductScreen extends StatelessWidget {
           width : double.infinity,
           height: (sizeHeight * 0.88 ),
           child : FutureBuilder(
-            future : context.read<ProductsBloc>().loadSearchedProducts( prodcutsSearched.toLowerCase() ),
+            future : onFunction,
             builder: (context, snapshot) {
 
               if( snapshot.connectionState == ConnectionState.waiting ) {
@@ -63,60 +69,69 @@ class SearchProductScreen extends StatelessWidget {
 
                     final product = snapshot.data?[index];
 
-                    return Stack(
-                      children: [
-
-                        Container(
-                          decoration: BoxDecoration(
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 10,
-                                color: Colors.black12,
-                                offset: Offset(0, 0),
-                                spreadRadius: 0,
+                    return GestureDetector(
+                      onTap: () {
+                        context.read<ProductsBloc>().selectProduct(product);
+                        context.push('/products/detail-product');
+                      },
+                      child: Stack(
+                        children: [
+                                        
+                          Container(
+                            decoration: BoxDecoration(
+                              boxShadow: const [
+                                BoxShadow(
+                                  blurRadius: 10,
+                                  color: Colors.black12,
+                                  offset: Offset(0, 0),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(30),
+                              image       : DecorationImage(
+                                image: NetworkImage( product!.thumbnail! ),
+                                fit   : BoxFit.cover,
+                              ),
+                            ),
+                          ).animate().scale( delay:Duration( milliseconds: ( index * 20 ) ) ),
+                                        
+                          Positioned(
+                            bottom: 0,
+                            left  : 0,
+                            right : 0,
+                            child : Container(
+                              padding: const EdgeInsets.symmetric( vertical: 20 ),
+                            ).blurred(
+                              borderRadius: const BorderRadius.only( bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30) ),
+                              blurColor   : Colors.grey.withOpacity(0.9),
+                              overlay     : Padding(
+                                padding: const EdgeInsets.symmetric( horizontal: 12 ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 2,
+                                      child: Text(product.title!, style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ),maxLines: 1, )
+                                    ),
+                            
+                                    const SizedBox( width: 5 ),
+                            
+                                    Expanded(
+                                      flex: 0,
+                                      child: Row(
+                                        children: [
+                                          const Icon(Icons.star, color: Colors.amber, size: 18 ),
+                                          Text('${product.rating}', style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ), maxLines: 1, )
+                                        ],
+                                      )
+                                    ),
+                                  ],
+                                ),
                               )
-                            ],
-                            borderRadius: BorderRadius.circular(30),
-                            image       : DecorationImage(
-                              image: NetworkImage( product!.thumbnail! ),
-                              fit   : BoxFit.cover,
                             ),
                           ),
-                        ).animate().scale( delay:Duration( milliseconds: ( index * 20 ) ) ),
-
-                        Positioned(
-                          bottom: 0,
-                          left  : 0,
-                          right : 0,
-                          child : Container(
-                            padding: const EdgeInsets.symmetric( vertical: 20 ),
-                          ).blurred(
-                            borderRadius: const BorderRadius.only( bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30) ),
-                            blurColor   : Colors.grey.withOpacity(0.9),
-                            overlay     : Padding(
-                              padding: const EdgeInsets.symmetric( horizontal: 12 ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    flex: 2,
-                                    child: Text(product.title!, style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ),maxLines: 1, )
-                                  ),
-
-                                  const SizedBox( width: 5 ),
-
-                                  Expanded(
-                                    flex: 0,
-                                    child: Text('${product.rating}', style: const TextStyle( color: Colors.white, fontWeight: FontWeight.w700 ), maxLines: 1, )
-                                  ),
-                                ],
-                              ),
-                            )
-                            // frostColor  : Colors.white60.withOpacity(0.2),
-                            // frostOpacity: 0.3
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                   childCount            : snapshot.data?.length,

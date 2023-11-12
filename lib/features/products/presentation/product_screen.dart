@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'views/products_list.dart';
+import 'views/search_product_input.dart';
 import 'package:practices/config/config.dart';
 
-import 'views/search_product_input.dart';
 
 class ProductScreen extends StatelessWidget {
 
@@ -29,7 +30,6 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    int value = 0;
     List<String> categories = CategoriesProducts.categories;
 
     return Padding(
@@ -53,9 +53,9 @@ class ProductView extends StatelessWidget {
 
             // categories
             SizedBox(
-              width: double.infinity,
+              width : double.infinity,
               height: 36,
-              child: ListView.builder(
+              child : ListView.builder(
                 scrollDirection : Axis.horizontal,
                 itemCount       : categories.length,
                 itemBuilder     : (context, index) {
@@ -63,19 +63,15 @@ class ProductView extends StatelessWidget {
                   return Container(
                     margin: const EdgeInsets.only( right: 12 ),
                     child : OutlinedButton(
-                        onPressed : () {
-                  
-                        },
-                        style: ButtonStyle(
+                        onPressed : () => context.push('/products/search-product/${categories[index]}/1'),
+                        style     : ButtonStyle(
                           side  : MaterialStateProperty.all<BorderSide>( BorderSide.none ),
                           shape : MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder( borderRadius: BorderRadius.circular(24) )
                           ),
-                          backgroundColor: (value == index)
-                              ? MaterialStateProperty.all<Color>(Colors.grey.shade400)
-                              : MaterialStateProperty.all<Color>(Colors.grey.shade200),
+                          backgroundColor:MaterialStateProperty.all<Color>(Colors.grey.shade200),
                         ),
-                        child : Text(categories[index], style: const TextStyle( color: Colors.black ),),
+                        child : Text(categories[index], style: const TextStyle( color: Colors.black ) ),
                       ),
                   ).animate().fadeIn().scale( duration: 500.ms );
                 }
@@ -92,7 +88,6 @@ class ProductView extends StatelessWidget {
                 Icon( Icons.menu_rounded )
               ],
             ),
-
 
             // list of products
             const ProductList(),

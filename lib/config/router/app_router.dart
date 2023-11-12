@@ -20,12 +20,13 @@ final appRouter = GoRouter(routes: [
       ),
 
       GoRoute(
-        path    : 'search-product/:product',
+        path    : 'search-product/:product/:showByCategorie',
         builder : (context, state) {
 
           final product = state.pathParameters['product'];
+          final showByCategories = state.pathParameters['showByCategorie'] == '1';
 
-          return SearchProductScreen( prodcutsSearched: product! );
+          return SearchProductScreen( prodcutsSearched: product!, showByCategorie: showByCategories );
         },
       ),
 

@@ -26,7 +26,7 @@ class _SearchProductInputViewState extends State<SearchProductInputView> {
 
           if( controller.text == '' ) return;
 
-          context.push('/products/search-product/${controller.text}');
+          context.push('/products/search-product/${controller.text}/0');
         },
         onChanged: (value) {
           setState(() {

@@ -50,6 +50,15 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     return searchedProducts;
   }
 
+  Future<List<Product>> loadProductsByCategorie( String product ) async {
+
+    final searchedProducts = await _productRepository.getProductsByCategorie(product);
+
+    add( ProductSearch( productsSearched: searchedProducts, product: product ) );
+
+    return searchedProducts;
+  }
+
   void _searchProduct( ProductSearch event, Emitter<ProductsState> emit ) {
     emit( state.copyWith( productsSearched: event.productsSearched ) );
   }
