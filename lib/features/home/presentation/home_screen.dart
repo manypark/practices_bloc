@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:go_router/go_router.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -39,7 +40,22 @@ class MenuItem {
 }
 
 final menuItems = [
-    MenuItem(title: 'Products', icon: Icons.shopping_bag_rounded, route: '/products', bgColor: const Color(0xffe9ebff), iconColor: const Color(0xffA0AAFF) ),
+  
+    MenuItem(
+      title     : 'Products', 
+      icon      : Icons.shopping_bag_rounded, 
+      route     : '/products', 
+      bgColor   : const Color(0xffe9ebff), 
+      iconColor : const Color(0xffA0AAFF),
+    ),
+
+    MenuItem(
+      title     : 'Login',
+      icon      : Icons.login_rounded, 
+      route     : '/login',
+      bgColor   : const Color(0xffe9ebff), 
+      iconColor : const Color(0xffA0AAFF),
+    ),
 ];
 
 class HomeView extends StatelessWidget {
@@ -48,18 +64,37 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    // final transitionIn = <Effect>[
+    //   FadeEffect(duration: 400.ms, curve: Curves.easeOut),
+    //   const ScaleEffect(begin: Offset(0, 8), curve: Curves.easeIn)
+    // ];
+    
     return SliverGrid.count(
       crossAxisCount  : 3,
       crossAxisSpacing: 10,
       mainAxisSpacing : 10,
-      children        : menuItems.map( ( item ) => HomeMenuItem(
+      // children        : [
+      //     const Text("Before", style: TextStyle( fontSize: 28, color: Colors.blueAccent ) )
+      //     .animate()
+      //     .fadeOut( delay: 900.ms )
+      //     .swap(duration: 300.ms, builder: (_, __) => const Text("After", style: TextStyle( fontSize: 28 )).animate().fadeIn().tint(color: Colors.red)
+      //     ),
+
+      //     const Text('Hello').animate( effects: transitionIn )
+      // ]
+
+      children: menuItems.map( ( item ) => HomeMenuItem(
           title  : item.title, 
           route  : item.route, 
           icon   : item.icon,
           bgColor:  item.bgColor,
           iconColor: item.iconColor,
         )
-      ).toList(),
+      ).toList().animate( interval: 200.ms )
+      .scale()
+      .move( delay: 100.ms, duration: 400.ms )
+      .shimmer( duration: 500.ms )
     );
   }
 }

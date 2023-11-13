@@ -80,15 +80,6 @@ class ProductView extends StatelessWidget {
 
             const SizedBox( height: 25 ),
 
-            // title top products
-            const Row(
-              mainAxisAlignment : MainAxisAlignment.spaceBetween,
-              children          : [
-                Text('Top propducts', style: TextStyle( fontSize: 20, fontWeight: FontWeight.w700),),
-                Icon( Icons.menu_rounded )
-              ],
-            ),
-
             // list of products
             const ProductList(),
           ],
