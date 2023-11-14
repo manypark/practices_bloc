@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class SignInView extends StatelessWidget {
 
@@ -100,7 +101,7 @@ class SignInView extends StatelessWidget {
                 ],
               ),
             ),
-        ],
+        ].animate( interval: 100.ms ).fadeIn( duration: 300.ms ),
       ),
     );
   }

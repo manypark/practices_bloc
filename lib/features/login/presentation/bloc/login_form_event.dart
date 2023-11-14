@@ -10,9 +10,14 @@ class LoginOption extends LoginFormEvent {
   
   final String email;
   final bool ifExsitEmail;
+  final bool isLoading;
 
   const LoginOption({
     this.email = '', 
-    this.ifExsitEmail = false
+    this.ifExsitEmail = false,
+    this.isLoading = false,
   });
+
+  @override
+  List<Object> get props => [email, ifExsitEmail, isLoading];  
 }

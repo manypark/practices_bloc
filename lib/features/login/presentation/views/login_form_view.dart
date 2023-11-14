@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../bloc/login_form_bloc.dart';
 
 class LoginOptionsView extends StatelessWidget {
 
   const LoginOptionsView({super.key});
 
-
   @override
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final loginUserBloc = context.watch<LoginFormBloc>();
 
     return SingleChildScrollView(
       child: Column(
@@ -46,13 +49,30 @@ class LoginOptionsView extends StatelessWidget {
                     return Colors.grey;
                   }
 
+                  if( loginUserBloc.state.isLoading ) {
+                    return Colors.grey;
+                  }
+
                   return Colors.purple;
                 }),
                 enableFeedback  : true,
                 shape           : MaterialStateProperty.all( RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ) ),
               ),
-              onPressed: (){},
-              child    : const Text('Continue', style: TextStyle( color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600 ),)
+              onPressed: () {
+                context.read<LoginFormBloc>().onVerifyEmail('manu@live.com');
+              },
+              child    : Row(
+                mainAxisAlignment : MainAxisAlignment.center,
+                children          : [
+
+                  if( loginUserBloc.state.isLoading )
+                  const CircularProgressIndicator(color: Colors.white, strokeWidth: 2,  ),
+
+                  const SizedBox( width: 20,),
+
+                  const Text('Continue', style: TextStyle( color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600 ),)
+                ],
+              )
             ),
           ),
     

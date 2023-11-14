@@ -1,9 +1,12 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:practices/features/login/presentation/views/views.dart';
+
+import 'bloc/login_form_bloc.dart';
 
 class LoginFormScreen extends StatelessWidget {
 
@@ -29,6 +32,7 @@ class LoginFormView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final loginUserBloc = context.watch<LoginFormBloc>();
 
     return Stack(
       children: [
@@ -70,19 +74,18 @@ class LoginFormView extends StatelessWidget {
           right : 0,
           child : Padding(
             padding : const EdgeInsets.symmetric( horizontal: 8 ),
-            child   : SizedBox(
-              width : ( size.width * 0.9 ),
-              // height: 420,
-              // height: 320, // for login
-              height: 580, // for options login
+            child   : AnimatedContainer(
+              width   : ( size.width * 0.9 ),
+              height  : loginUserBloc.state.ifExsitEmail ? 320 : 580, // height: 420,
+              duration: const Duration( milliseconds: 400 ),
+              curve   : Curves.decelerate,
             ).blurred(
               blur        : 7,
               colorOpacity: 0.6,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               blurColor   : Colors.black,
               // overlay     : const SignUpView()
-              // overlay     : const SignInView()
-              overlay     : const LoginOptionsView()
+              overlay     : loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView()
             ),
           ),
         )
