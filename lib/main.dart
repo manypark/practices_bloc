@@ -5,7 +5,8 @@ import 'package:practices/features/products/presentation/bloc/blocs.dart';
 
 import 'features/login/presentation/bloc/login_form_bloc.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   serviceLocatorInit();
   runApp(const BlocsProviders());
 }
