@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import 'blocs/blocs.dart';
 import 'package:practices/features/login/presentation/views/views.dart';
-
-import 'bloc/login_form_bloc.dart';
 
 class LoginFormScreen extends StatelessWidget {
 
@@ -87,7 +86,8 @@ class LoginFormView extends StatelessWidget {
               colorOpacity: 0.6,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               blurColor   : Colors.black,
-              overlay     : loginUserBloc.state.showSignupView ? const SignUpView() : ( loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView() )
+              overlay     : loginUserBloc.state.showSignupView ? const SignUpView() :
+              ( loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView() )
             ),
           ),
         )

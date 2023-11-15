@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:practices/features/login/presentation/blocs/blocs.dart';
 import 'package:practices/firebase_options.dart';
 
 import 'package:practices/config/config.dart';
-import 'features/login/presentation/bloc/login_form_bloc.dart';
 import 'package:practices/features/products/presentation/bloc/blocs.dart';
 
 void main() async {
@@ -26,6 +26,7 @@ class BlocsProviders extends StatelessWidget {
       providers : [
         BlocProvider(create: (context) => getIt<ProductsBloc>(), lazy: false ),
         BlocProvider(create: (context) => getIt<LoginFormBloc>(), lazy: false ),
+        BlocProvider(create: (context) => getIt<AuthBloc>(), lazy: false ),
       ],
       child : const MainApp(),
     );

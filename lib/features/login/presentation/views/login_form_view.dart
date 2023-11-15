@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-import '../bloc/login_form_bloc.dart';
+import '../blocs/blocs.dart';
 
 class LoginOptionsView extends StatefulWidget {
   const LoginOptionsView({super.key});
