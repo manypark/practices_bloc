@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -13,6 +14,10 @@ class LoginOptionsView extends StatefulWidget {
 class _LoginOptionsViewState extends State<LoginOptionsView> {
 
   final emailController = TextEditingController();
+  final RegExp _emailRegExp = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+  String validEmail = '';
 
   @override
   void dispose() {
@@ -26,13 +31,11 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
     final size = MediaQuery.of(context).size;
     final loginUserBloc = context.watch<LoginFormBloc>();
 
-    print(loginUserBloc.state);
-
     return SingleChildScrollView(
       child: Column(
         children: [
-                
-          // email input
+
+          // input email
           SizedBox(
             width : ( size.width * 0.84 ),
             height: 55,
@@ -76,6 +79,30 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
               ],
             ),
           ),
+
+          if( validEmail == 'Email invalid' )
+          SizedBox(
+            width : ( size.width * 0.84 ),
+            child : const Row(
+              children: [
+                Icon( Icons.warning, color: Colors.red ),
+                SizedBox( width: 10 ),
+                Text('Email invalid.', style: TextStyle( color: Colors.red, fontWeight: FontWeight.w600 ) ),
+              ],
+            ),
+          ),
+
+          if( validEmail == 'empty' )
+          SizedBox(
+            width : ( size.width * 0.84 ),
+            child : const Row(
+              children: [
+                Icon( Icons.warning, color: Colors.red ),
+                SizedBox( width: 10 ),
+                Text('Not must be empty', style: TextStyle( color: Colors.red, fontWeight: FontWeight.w600 ) ),
+              ],
+            ),
+          ),
     
           const SizedBox( height: 20 ),
 
@@ -100,7 +127,22 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
                 enableFeedback  : true,
                 shape           : MaterialStateProperty.all( RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ) ),
               ),
-              onPressed: () => context.read<LoginFormBloc>().onVerifyEmail(emailController.text),
+              onPressed: () {
+
+                if( emailController.text.isEmpty ) {
+                  setState(() { validEmail = 'empty'; });
+                  return;
+                }
+
+                if( !_emailRegExp.hasMatch( emailController.text) ) {
+                  setState(() { validEmail = 'Email invalid'; });
+                  return;
+                }
+
+                validEmail = '';
+
+                context.read<LoginFormBloc>().onVerifyEmail(emailController.text);
+              },
               child    : Row(
                 mainAxisAlignment : MainAxisAlignment.center,
                 children          : [
@@ -180,7 +222,20 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
               children: [
                 const Text("Don't have an account? ", style: TextStyle( fontSize: 16, color: Colors.white ) ),
                 TextButton(
-                  onPressed : (){}, 
+                  onPressed : () {
+
+                    if( emailController.text.isEmpty ) {
+                      setState(() { validEmail = 'empty'; });
+                      return;
+                    }
+
+                    if( !_emailRegExp.hasMatch( emailController.text) ) {
+                      setState(() { validEmail = 'Email invalid'; });
+                      return;
+                    }
+
+                    loginUserBloc.canShowSignupView( emailController.text, true );
+                  },
                   child     : const Text('Sign up', style: TextStyle( color: Colors.purpleAccent, fontWeight: FontWeight.w600 ) ),
                 ),
               ],
@@ -194,7 +249,7 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
               direction : Axis.horizontal,
               children  : [
                   TextButton(
-                  onPressed : (){}, 
+                  onPressed : (){},
                   child     : const Text('Forgot your password?', style: TextStyle( color: Colors.purpleAccent, fontWeight: FontWeight.w600 ) ),
                 ),
               ],

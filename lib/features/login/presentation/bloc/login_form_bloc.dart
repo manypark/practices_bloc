@@ -11,11 +11,17 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
 
   LoginFormBloc() : super( const LoginFormState() ) {
     on<ResetState>( _resetStateHandler );
+    on<ShowSignupView>( _showSignUpView );
     on<LoginOption>( _loginWithEmailAndPasswordHandler );
+  }
+
+  void canShowSignupView( String email, bool showSignupView ) {
+    add(ShowSignupView(email: email, showSignupView: showSignupView) );
   }
 
   void resetState() {
     add( ResetState() );
+    canShowSignupView('', false);
   }
 
   void onVerifyEmail( String email ) async {
@@ -41,6 +47,10 @@ class LoginFormBloc extends Bloc<LoginFormEvent, LoginFormState> {
         isLoading   : event.isLoading
       )
     );
+  }
+
+  _showSignUpView( ShowSignupView event, Emitter<LoginFormState> emit ) {
+    emit( state.copyWith( showSignupView: event.showSignupView, email: event.email ) );
   }
 
 }

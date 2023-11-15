@@ -79,7 +79,7 @@ class LoginFormView extends StatelessWidget {
             padding : const EdgeInsets.symmetric( horizontal: 8 ),
             child   : AnimatedContainer(
               width   : ( size.width * 0.9 ),
-              height  : loginUserBloc.state.ifExsitEmail ? 320 : 580, // height: 420,
+              height  : loginUserBloc.state.showSignupView ? 420 : (loginUserBloc.state.ifExsitEmail ? 320 : 580),
               duration: const Duration( milliseconds: 400 ),
               curve   : Curves.decelerate,
             ).blurred(
@@ -87,8 +87,7 @@ class LoginFormView extends StatelessWidget {
               colorOpacity: 0.6,
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               blurColor   : Colors.black,
-              // overlay     : const SignUpView()
-              overlay     : loginUserBloc.state.ifExsitEmail ? const SignInView() : LoginOptionsView()
+              overlay     : loginUserBloc.state.showSignupView ? const SignUpView() : ( loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView() )
             ),
           ),
         )

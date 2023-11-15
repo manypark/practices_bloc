@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:practices/features/login/presentation/bloc/login_form_bloc.dart';
 
 class SignUpView extends StatelessWidget {
 
@@ -8,6 +10,7 @@ class SignUpView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final loginuserBloc = context.watch<LoginFormBloc>();
 
     return SingleChildScrollView(
       child: Column(
@@ -16,7 +19,7 @@ class SignUpView extends StatelessWidget {
 
           const Text("Looks liek you don't have account.", style: TextStyle( color: Colors.white, fontSize: 16 ) ),
           const Text("Let's create a new account for", style: TextStyle( color: Colors.white, fontSize: 16 ) ),
-          const Text('jane.doe@live.com', style: TextStyle( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
+          Text(loginuserBloc.state.email, style: const TextStyle( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),),
 
           const SizedBox( height: 20 ),
 

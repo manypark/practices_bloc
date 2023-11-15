@@ -8,6 +8,20 @@ sealed class LoginFormEvent extends Equatable {
 
 class ResetState extends LoginFormEvent {}
 
+class ShowSignupView extends LoginFormEvent {
+
+  final String email;
+  final bool showSignupView;
+
+  const ShowSignupView({
+    this.email = '',
+    this.showSignupView = false
+  });
+  
+  @override
+  List<Object> get props => [email, showSignupView];
+}
+
 class LoginOption extends LoginFormEvent {
   
   final String email;
