@@ -6,6 +6,8 @@ sealed class LoginFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class ResetState extends LoginFormEvent {}
+
 class LoginOption extends LoginFormEvent {
   
   final String email;

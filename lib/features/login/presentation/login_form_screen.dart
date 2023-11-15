@@ -53,7 +53,10 @@ class LoginFormView extends StatelessWidget {
               backgroundColor : MaterialStatePropertyAll(Colors.white12),
               padding         : MaterialStatePropertyAll( EdgeInsets.all(16) )
             ),
-            onPressed : () => context.pop(), 
+            onPressed : () {
+              context.read<LoginFormBloc>().resetState();
+              context.pop();
+            },
             icon      : const Icon( Icons.arrow_back_ios_rounded, color: Colors.white, ),
           ),
         ).animate().slide().fade( delay: 400.ms, duration: 400.ms ),
@@ -85,7 +88,7 @@ class LoginFormView extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               blurColor   : Colors.black,
               // overlay     : const SignUpView()
-              overlay     : loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView()
+              overlay     : loginUserBloc.state.ifExsitEmail ? const SignInView() : LoginOptionsView()
             ),
           ),
         )

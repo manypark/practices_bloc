@@ -6,7 +6,7 @@ class LoginUserDatasourceImpl extends LoginUserDatasource{
   Future<bool> verifyEmail(String email) async {
 
     try {
-      return email == 'manu@live.com';
+      return email == 'jane.doe@live.com';
     } catch (e) {
       throw Exception(e .toString() );
     }

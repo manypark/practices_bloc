@@ -4,15 +4,29 @@ import 'package:flutter_animate/flutter_animate.dart';
 
 import '../bloc/login_form_bloc.dart';
 
-class LoginOptionsView extends StatelessWidget {
-
+class LoginOptionsView extends StatefulWidget {
   const LoginOptionsView({super.key});
+  @override
+  State<LoginOptionsView> createState() => _LoginOptionsViewState();
+}
+
+class _LoginOptionsViewState extends State<LoginOptionsView> {
+
+  final emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
     final loginUserBloc = context.watch<LoginFormBloc>();
+
+    print(loginUserBloc.state);
 
     return SingleChildScrollView(
       child: Column(
@@ -23,15 +37,43 @@ class LoginOptionsView extends StatelessWidget {
             width : ( size.width * 0.84 ),
             height: 55,
             child : TextFormField(
+              controller  : emailController,
               keyboardType: TextInputType.emailAddress,
               decoration  : InputDecoration(
                 hintText : 'Email',
                 filled    : true,
-                fillColor : Colors.grey.shade100,
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all( Radius.circular( 10 ) ),
+                fillColor : ( !loginUserBloc.state.ifExsitEmail && loginUserBloc.state.email != '') ? Colors.red.shade200 :Colors.grey.shade100,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all( Radius.circular( 10 ) ),
+                  borderSide  : BorderSide(
+                    color: ( !loginUserBloc.state.ifExsitEmail && loginUserBloc.state.email != '') ? Colors.red :Colors.grey.shade100,
+                    width: 2,
+                    style: BorderStyle.solid
+                  ),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all( Radius.circular( 10 ) ),
+                  borderSide  : BorderSide(
+                    color: loginUserBloc.state.ifExsitEmail ? Colors.red :Colors.grey.shade100,
+                    width: 2,
+                    style: BorderStyle.solid
+                  ),
                 )
               ),
+            ),
+          ),
+
+          const SizedBox( height: 5 ),
+
+          if( !loginUserBloc.state.ifExsitEmail && loginUserBloc.state.email != '' )
+          SizedBox(
+            width : ( size.width * 0.84 ),
+            child : const Row(
+              children: [
+                Icon( Icons.warning, color: Colors.red ),
+                SizedBox( width: 10 ),
+                Text('Plaease check your email address.', style: TextStyle( color: Colors.red, fontWeight: FontWeight.w600 ) ),
+              ],
             ),
           ),
     
@@ -58,9 +100,7 @@ class LoginOptionsView extends StatelessWidget {
                 enableFeedback  : true,
                 shape           : MaterialStateProperty.all( RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ) ),
               ),
-              onPressed: () {
-                context.read<LoginFormBloc>().onVerifyEmail('manu@live.com');
-              },
+              onPressed: () => context.read<LoginFormBloc>().onVerifyEmail(emailController.text),
               child    : Row(
                 mainAxisAlignment : MainAxisAlignment.center,
                 children          : [
