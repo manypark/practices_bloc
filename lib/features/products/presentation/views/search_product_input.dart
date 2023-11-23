@@ -35,7 +35,6 @@ class _SearchProductInputViewState extends State<SearchProductInputView> {
         },
         decoration: InputDecoration(
           hintText: 'Search your product',
-          fillColor: Colors.grey.shade100,
           filled   : true,
           border  : InputBorder.none,
           prefixIcon: const Icon( Icons.search_outlined),

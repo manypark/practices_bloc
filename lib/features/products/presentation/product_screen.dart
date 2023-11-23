@@ -1,6 +1,9 @@
+import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:practices/features/home/presentation/bloc/dark_mode_bloc.dart';
 
 import 'views/products_list.dart';
 import 'views/search_product_input.dart';
@@ -13,11 +16,40 @@ class ProductScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final darkModeBloc = context.watch<DarkModeBloc>().state.isDarkMode;
+
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body  : const ProductView(),
+      child: ThemeSwitchingArea(
+        child: Scaffold(
+          appBar: AppBar(
+            actions: [
+              ThemeSwitcher(
+                clipper: const ThemeSwitcherCircleClipper(),
+                builder: ( context ) {
+                  return IconButton(
+                    onPressed : () {                
+
+                      final brightness = ThemeModelInheritedNotifier.of(context).theme.brightness;
+                  
+                      ThemeSwitcher.of(context).changeTheme(
+                        // theme     : darkModeBloc ? AppTheme().getThemedark() : AppTheme().getThemeLight(),
+                        // isReversed: darkModeBloc ? true : false,
+                        theme     : brightness == Brightness.light ? AppTheme().getThemedark() : AppTheme().getThemeLight(),
+                        isReversed: brightness == Brightness.light ? true : false,
+                      );
+
+                      context.read<DarkModeBloc>().changeDarkMode();
+                    },
+                    icon      : Icon( darkModeBloc ? Icons.dark_mode_outlined : Icons.light_mode_outlined )
+                  );
+                }
+              ),
+            ],
+          ),
+          body  : const ProductView(),
+        ),
       ),
     );
   }
