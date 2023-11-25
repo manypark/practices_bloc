@@ -1,25 +1,27 @@
 import 'package:dio/dio.dart';
+
+import 'package:practices/config/config.dart';
 import 'package:practices/features/products/domain/domain.dart';
 import 'package:practices/features/products/infrastructure/mappers/product_mapper.dart';
 
 class ProductDatasource extends ProductDataSource {
 
-  final dio = Dio(
-    BaseOptions(
-      baseUrl: 'https://dummyjson.com/products'
-    )
-  );
+  final DioClient _clientDio;
+
+  ProductDatasource({
+    DioClient? clientDio,
+  }): _clientDio = clientDio ?? DioClient(Dio());
 
   @override
   Future<List<Product>> getProducts( int skip ) async {
     
     try {
 
-      final res = await dio.get('?limit=12&skip=$skip');
+      final res = await _clientDio.get('?limit=12&skip=$skip');
 
       final resProducts = res.data['products'];
 
-      final products = _jsonToProduct( resProducts );
+      final products = jsonToProduct( resProducts );
 
       return products;
 
@@ -34,9 +36,9 @@ class ProductDatasource extends ProductDataSource {
 
     try {
 
-      final res = await dio.get('/category/$category');
+      final res = await _clientDio.get('/category/$category');
 
-      final products = _jsonToProduct( res.data['products'] );
+      final products = jsonToProduct( res.data['products'] );
 
       return products;
       
@@ -50,9 +52,9 @@ class ProductDatasource extends ProductDataSource {
   Future<List<Product>> searchProducts( String product ) async {
     try {
 
-      final res = await dio.get('/search?q=$product');
+      final res = await _clientDio.get('/search?q=$product');
 
-      final products = _jsonToProduct( res.data['products'] );
+      final products = jsonToProduct( res.data['products'] );
 
       return products;
       
@@ -62,7 +64,7 @@ class ProductDatasource extends ProductDataSource {
 
   }
 
-  List<Product> _jsonToProduct( List<dynamic> json ) {
+  List<Product> jsonToProduct( List<dynamic> json ) {
     final productResponse = json.map( (p) => ProductMapper.productToEntity(p)).toList();
     return productResponse;
   }
