@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
+
 import 'package:practices/config/config.dart';
 import 'package:practices/features/products/infrastructure/infrastructure.dart';
 
@@ -10,36 +11,48 @@ void main() {
 
   group('ProductDataSource', () {
 
+    final mockDioClient = MockDioClient();
+    final dataSource    = ProductDatasource(clientDio: mockDioClient);
+
     test('getProducts should return a list of products', () async {
 
-      final mockDioClient = MockDioClient();
-      final dataSource    = ProductDatasource(clientDio: mockDioClient);
-
-      when(mockDioClient.get('?limit=12&skip=2')).thenAnswer((_) async => Response( data: { 'products': CategoriesProducts.mockListProducts }, requestOptions: RequestOptions() ) );
+      when(mockDioClient.get('?limit=12&skip=2')).thenAnswer((_) async => Response( 
+          data: { 
+            'products': CategoriesProducts.mockListProducts
+          }, 
+          requestOptions: RequestOptions()
+        )
+      );
 
       final result = await dataSource.getProducts(2);
 
       expect(result, equals( CategoriesProducts.mockProductJsonToEntity ) );
     });
 
-    test('getProductsByCategorie should return a list of products', () async {
+    test('getProductsByCategorie should return a list of products by category', () async {
 
-      final mockDioClient = MockDioClient();
-      final dataSource    = ProductDatasource(clientDio: mockDioClient);
-
-      when(mockDioClient.get('/category/smartphones')).thenAnswer((_) async => Response(data: { 'products': CategoriesProducts.mockListProductsByCategory }, requestOptions: RequestOptions() ) );
+      when(mockDioClient.get('/category/smartphones')).thenAnswer((_) async => Response(
+         data: {
+            'products': CategoriesProducts.mockListProductsByCategory
+          }, 
+          requestOptions: RequestOptions()
+        ),
+      );
 
       final result = await dataSource.getProductsByCategorie('smartphones');
 
       expect( result, CategoriesProducts.mockProductJsonToEntityByCategory );
     });
 
-    test('searchProducts should return a list of products', () async {
+    test('searchProducts should return a list of products searched', () async {
 
-      final mockDioClient = MockDioClient();
-      final dataSource    = ProductDatasource(clientDio: mockDioClient);
-
-      when(mockDioClient.get('/search?q=smart')).thenAnswer((_) async => Response(data: {'products': CategoriesProducts.mockListProductsSearch }, requestOptions: RequestOptions() ) );
+      when(mockDioClient.get('/search?q=smart')).thenAnswer((_) async => Response(
+          data: {
+            'products': CategoriesProducts.mockListProductsSearch
+          }, 
+          requestOptions: RequestOptions()
+        )
+      );
 
       final result = await dataSource.searchProducts('smart');
 

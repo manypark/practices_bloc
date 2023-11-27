@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class CustomCardImage extends StatelessWidget {
 
@@ -33,20 +34,39 @@ class CustomCardImage extends StatelessWidget {
             children: [
 
               //Preview product image
+              // Hero(
+              //   tag  : 'image$index',
+              //   child: Container(
+              //     width : double.infinity,
+              //     height: 140,
+              //     decoration: BoxDecoration(
+              //       borderRadius: BorderRadius.circular(30),
+              //       image       : DecorationImage(
+              //         image : NetworkImage(urlImg),
+              //         fit   : BoxFit.cover,
+              //       )
+              //     ),
+              //   ),
+              // ),
+
               Hero(
-                  tag  : 'image$index',
-                  child: Container(
+                tag  : 'image$index',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child       : SizedBox(
                     width : double.infinity,
                     height: 140,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(30),
-                      image       : DecorationImage(
-                        image: NetworkImage(urlImg),
-                        fit   : BoxFit.cover,
-                      )
+                    child : CachedNetworkImage(
+                      progressIndicatorBuilder: (context, url, progress) => Center(
+                        child: CircularProgressIndicator( value: progress.progress ),
+                      ),
+                      imageUrl    : urlImg,
+                      errorWidget : (context, url, error) => Text('Algo salio mal: $error'),
+                      fit         : BoxFit.cover,
                     ),
                   ),
                 ),
+              ),
 
               // Rating
               Positioned(

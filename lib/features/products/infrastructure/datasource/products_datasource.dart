@@ -19,9 +19,7 @@ class ProductDatasource extends ProductDataSource {
 
       final res = await _clientDio.get('?limit=12&skip=$skip');
 
-      final resProducts = res.data['products'];
-
-      final products = jsonToProduct( resProducts );
+      final products = jsonToProduct( res.data['products'] );
 
       return products;
 
