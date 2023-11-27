@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import 'package:practices/features/login/presentation/blocs/blocs.dart';
 
 class SignInView extends StatelessWidget {
 
@@ -9,6 +12,7 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final size = MediaQuery.of(context).size;
+    final emailSignIn = context.watch<LoginFormBloc>();
 
     return SingleChildScrollView(
       child: Column(
@@ -34,11 +38,11 @@ class SignInView extends StatelessWidget {
 
                   const SizedBox( width: 20 ),
 
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Jane Dow', style: TextStyle( color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),),
-                      Text('jane.doe@live.com', style: TextStyle( color: Colors.white, fontSize: 16 ) )
+                      const Text('Manu Maldonado', style: TextStyle( color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),),
+                      Text( emailSignIn.state.email, style: const TextStyle( color: Colors.white, fontSize: 16 ) )
                     ],
                   )
                 ],
@@ -95,7 +99,9 @@ class SignInView extends StatelessWidget {
                 direction : Axis.horizontal,
                 children  : [
                     TextButton(
-                    onPressed : (){}, 
+                    onPressed : () {
+
+                    },
                     child     : const Text('Forgot your password?', style: TextStyle( color: Colors.purpleAccent, fontWeight: FontWeight.w600 ) ),
                   ),
                 ],
@@ -105,4 +111,5 @@ class SignInView extends StatelessWidget {
       ),
     );
   }
+
 }

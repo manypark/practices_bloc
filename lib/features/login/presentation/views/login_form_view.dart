@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../blocs/blocs.dart';
 
@@ -190,7 +191,10 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
                 enableFeedback  : true,
                 shape           : MaterialStateProperty.all( RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ) ),
               ),
-              onPressed: () { },
+              onPressed: () async {
+                final googleUser = await signInWithGoogle();
+                print(googleUser);
+              },
               child    : const Text('Continue with Google', style: TextStyle( color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600 ),)
             ),
           ),
@@ -258,5 +262,27 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
         ].animate( interval: 100.ms ).fadeIn( duration: 300.ms ),
       ),
     );
+  }
+}
+
+Future<Map<String, dynamic>> signInWithGoogle() async {
+  
+  try {
+
+    final googleSignIn = GoogleSignIn();
+    final account = await googleSignIn.signIn();
+    final googleKey = await account?.authentication;
+
+    Map<String, dynamic> data = {
+      'token'     : googleKey?.idToken,
+      'fullName'  : account?.displayName,
+      'email'     : account?.email,
+      'urlPhoto'  : account?.photoUrl,
+    };
+
+    return data;
+
+  } catch (e) {
+    return {};
   }
 }
