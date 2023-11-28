@@ -11,8 +11,12 @@ class AppTheme {
       hintStyle: const TextStyle( color: Colors.black )
     ),
     textTheme       : const TextTheme(
-      bodyMedium: TextStyle( color : Colors.black ),
-    )
+      bodyMedium  : TextStyle( color : Colors.black ),
+      titleLarge  : TextStyle( color : Colors.black, fontSize: 26 ),
+      titleMedium : TextStyle( color : Colors.black, fontSize: 22 ),
+      titleSmall  : TextStyle( color : Colors.black, fontSize: 18),
+    ),
+
   );
 
   ThemeData getThemedark() => ThemeData(
@@ -24,6 +28,9 @@ class AppTheme {
     ),
     textTheme       : const TextTheme(
       bodyMedium: TextStyle( color : Colors.white ),
+      titleLarge  : TextStyle( color : Colors.white, fontSize: 26 ),
+      titleMedium : TextStyle( color : Colors.white, fontSize: 22 ),
+      titleSmall  : TextStyle( color : Colors.white, fontSize: 18 ),
     )
   );
 

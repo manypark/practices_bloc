@@ -10,4 +10,5 @@ void serviceLocatorInit() {
   getIt.registerSingleton( LoginFormBloc() );
   getIt.registerSingleton( AuthBloc() );
   getIt.registerSingleton( DarkModeBloc() );
+  getIt.registerSingleton( AuthGoogleBloc() );
 }

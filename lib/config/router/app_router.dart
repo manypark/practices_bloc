@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:practices/features/home/home.dart';
 import 'package:practices/features/login/login.dart';
+import 'package:practices/features/login/presentation/views/views.dart';
 import 'package:practices/features/products/products.dart';
 
 final appRouter = GoRouter(
@@ -40,6 +41,13 @@ final appRouter = GoRouter(
     GoRoute(
       path    : '/login',
       builder : (context, state) => const LoginFormScreen(),
+      routes  : [
+
+        GoRoute(
+          path    : 'info-user',
+          builder : (context, state) => const InfoUserView(),
+        ),
+      ] 
     ),
 
   ]

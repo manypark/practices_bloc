@@ -35,6 +35,7 @@ class BlocsProviders extends StatelessWidget {
         BlocProvider(create: (context) => getIt<LoginFormBloc>(), lazy: false ),
         BlocProvider(create: (context) => getIt<AuthBloc>(), lazy: false ),
         BlocProvider(create: (context) => getIt<DarkModeBloc>(), lazy: false ),
+        BlocProvider(create: (context) => getIt<AuthGoogleBloc>(), lazy: false ),
       ],
       child : const MainApp(),
     );

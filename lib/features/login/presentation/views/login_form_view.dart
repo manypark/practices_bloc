@@ -1,6 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 import '../blocs/blocs.dart';
@@ -30,6 +33,7 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
 
     final size = MediaQuery.of(context).size;
     final loginUserBloc = context.watch<LoginFormBloc>();
+    final textStyles = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
       child: Column(
@@ -44,6 +48,7 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
               keyboardType: TextInputType.emailAddress,
               decoration  : InputDecoration(
                 hintText : 'Email',
+                hintStyle: textStyles.titleSmall,
                 filled    : true,
                 fillColor : ( !loginUserBloc.state.ifExsitEmail && loginUserBloc.state.email != '') ? Colors.red.shade200 :Colors.grey.shade100,
                 enabledBorder: OutlineInputBorder(
@@ -192,8 +197,12 @@ class _LoginOptionsViewState extends State<LoginOptionsView> {
                 shape           : MaterialStateProperty.all( RoundedRectangleBorder( borderRadius: BorderRadius.circular(10) ) ),
               ),
               onPressed: () async {
+
                 final googleUser = await signInWithGoogle();
-                print(googleUser);
+
+                context.read<AuthGoogleBloc>().loginWithGoogle( googleUser['fullName'], googleUser['email'], googleUser['urlPhoto'] );
+
+                context.push('/login/info-user');
               },
               child    : const Text('Continue with Google', style: TextStyle( color: Colors.black, fontSize: 20, fontWeight: FontWeight.w600 ),)
             ),
@@ -271,10 +280,10 @@ Future<Map<String, dynamic>> signInWithGoogle() async {
 
     final googleSignIn = GoogleSignIn();
     final account = await googleSignIn.signIn();
-    final googleKey = await account?.authentication;
+    // final googleKey = await account?.authentication;
 
     Map<String, dynamic> data = {
-      'token'     : googleKey?.idToken,
+      // 'token'     : googleKey?.idToken,
       'fullName'  : account?.displayName,
       'email'     : account?.email,
       'urlPhoto'  : account?.photoUrl,
