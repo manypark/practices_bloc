@@ -84,8 +84,8 @@ class LoginFormView extends StatelessWidget {
             ).blurred(
               blur        : 7,
               colorOpacity: 0.6,
-              borderRadius: const BorderRadius.all(Radius.circular(20)),
               blurColor   : Colors.black,
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               overlay     : loginUserBloc.state.showSignupView ? const SignUpView() :
               ( loginUserBloc.state.ifExsitEmail ? const SignInView() : const LoginOptionsView() )
             ),
